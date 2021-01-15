@@ -1,1 +1,1 @@
-a simple SQLi code
+a simple SQLi code - without gin gorm
