@@ -7,7 +7,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
-//DB 
+//DB
 var DB *gorm.DB
 
 //ConnectDataBase connect to db

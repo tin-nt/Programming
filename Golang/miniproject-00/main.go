@@ -55,8 +55,20 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Query()["name"][0]
 	Population := r.URL.Query()["population"][0]
 
-	sqlStatement := "INSERT INTO cities(name,population) values (?,?)"
-	res, err := db.Exec(sqlStatement, name, Population)
+	// Filter
+	// reString := regexp.MustCompile(`^[a-zA-Z]+$`)
+	// reNumber := regexp.MustCompile(`^[0-9]+$`)
+	// match1 := reString.MatchString(name)
+	// match2 := reNumber.MatchString(Population)
+	// sqlStatement := ""
+	// if match1 && match2 {
+	// 	sqlStatement = "INSERT INTO cities(name, population) values (?,?)"
+	// } else {
+	// 	http.Error(w, "Wrong pattern!", 400)
+	// 	return
+	// }
+
+	res, err := db.Exec("INSERT INTO cities(name, population) values (?,?)", name, Population)
 
 	if err != nil {
 		// debug
@@ -79,11 +91,11 @@ func Find(w http.ResponseWriter, r *http.Request) {
 	)
 	id = r.URL.Query()["id"][0]
 
-	sqlStatement := "SELECT * FROM cities WHERE id = ?"
-	res, err := db.Query(sqlStatement, id)
-
+	// sqlStatement := "SELECT * FROM cities WHERE id = ?"
+	// res, err := db.Query(sqlStatement, id)
+	res, err := db.Query("SELECT * FROM cities WHERE id = " + id)
 	if err != nil {
-		log.Fatal(err)
+		panic(err.Error())
 	}
 	defer res.Close()
 
